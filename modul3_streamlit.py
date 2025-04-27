@@ -437,20 +437,22 @@ if df is not None:
             st.session_state.filtered_df = df[df[column] == sentiment][['sentence']]
             st.session_state.filter_applied = True
             st.success(f"Filtered to {len(st.session_state.filtered_df)} sentences with {sentiment} sentiment about {column}")
+             # Show filtering information
+            filtered_df = st.session_state.filtered_df
+            if st.session_state.filter_applied:
+                st.write(f"Analyzing {len(filtered_df)} sentences with {sentiment} sentiment about {column}.")
+            else:
+                st.write(f"Analyzing {len(filtered_df)} sentences with negative sentiment about fuel.")
+
         
         # Use default filter if not already filtered
         if st.session_state.filtered_df is None:
             st.session_state.filtered_df = df[df['fuel'] == 'negative'][['sentence']]
             st.info("Using default filter: negative sentiment about fuel. Click 'Apply Filter' to change.")
 
-        filtered_df = st.session_state.filtered_df
+        
 
-        # Show filtering information
-        if st.session_state.filter_applied:
-            st.write(f"Analyzing {len(filtered_df)} sentences with {sentiment} sentiment about {column}.")
-        else:
-            st.write(f"Analyzing {len(filtered_df)} sentences with negative sentiment about fuel.")
-
+       
         # Limit number of sentences for better performance
         max_sentences = st.slider("Maximum number of sentences to cluster:", 50, 500, 200, step=50)
         limited_df = filtered_df.head(max_sentences).copy()
