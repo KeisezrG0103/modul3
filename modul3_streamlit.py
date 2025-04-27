@@ -257,6 +257,7 @@ if df is not None:
 
     # Text Summarization
     elif analysis_option == "Text Summarization":
+        st.session_state.filter_applied = False
         st.header("Text Summarization")
 
         st.subheader("Filter Data")
@@ -318,6 +319,7 @@ if df is not None:
 
     # Text Similarity
     elif analysis_option == "Text Similarity":
+        st.session_state.filter_applied = False
         st.header("Text Similarity Analysis")
 
         # Add filtering options 
@@ -411,6 +413,7 @@ if df is not None:
 
     # Text Clustering
     elif analysis_option == "Text Clustering":
+        st.session_state.filter_applied = False
         st.header("Text Clustering")
 
         # Add filtering options like in Text Summarization section
@@ -437,22 +440,20 @@ if df is not None:
             st.session_state.filtered_df = df[df[column] == sentiment][['sentence']]
             st.session_state.filter_applied = True
             st.success(f"Filtered to {len(st.session_state.filtered_df)} sentences with {sentiment} sentiment about {column}")
-             # Show filtering information
-            filtered_df = st.session_state.filtered_df
-            if st.session_state.filter_applied:
-                st.write(f"Analyzing {len(filtered_df)} sentences with {sentiment} sentiment about {column}.")
-            else:
-                st.write(f"Analyzing {len(filtered_df)} sentences with negative sentiment about fuel.")
-
         
         # Use default filter if not already filtered
         if st.session_state.filtered_df is None:
             st.session_state.filtered_df = df[df['fuel'] == 'negative'][['sentence']]
             st.info("Using default filter: negative sentiment about fuel. Click 'Apply Filter' to change.")
 
-        
+        filtered_df = st.session_state.filtered_df
 
-       
+        # Show filtering information
+        if st.session_state.filter_applied:
+            st.write(f"Analyzing {len(filtered_df)} sentences with {sentiment} sentiment about {column}.")
+        else:
+            st.write(f"Analyzing {len(filtered_df)} sentences with negative sentiment about fuel.")
+
         # Limit number of sentences for better performance
         max_sentences = st.slider("Maximum number of sentences to cluster:", 50, 500, 200, step=50)
         limited_df = filtered_df.head(max_sentences).copy()
@@ -561,6 +562,7 @@ if df is not None:
                 st.plotly_chart(fig)
 
         elif clustering_method == "DBSCAN":
+            st.session_state.filter_applied = False
             col1, col2 = st.columns(2)
             
             with col1:
@@ -742,6 +744,7 @@ if df is not None:
 
     # Word2Vec Analysis
     elif analysis_option == "Word2Vec Analysis":
+        st.session_state.filter_applied = False
         st.header("Word2Vec Analysis")
 
         # Add filtering options
@@ -963,6 +966,7 @@ if df is not None:
 
     # Distance Metrics Comparison
     elif analysis_option == "Distance Metrics Comparison":
+        st.session_state.filter_applied = False
         st.header("Distance Metrics Comparison")
 
         # Add filtering options
