@@ -257,7 +257,8 @@ if df is not None:
 
     # Text Summarization
     elif analysis_option == "Text Summarization":
-        st.session_state.filter_applied = False
+        if "filter_applied" not in st.session_state:
+            st.session_state.filter_applied = False
         st.header("Text Summarization")
 
         st.subheader("Filter Data")
@@ -291,7 +292,7 @@ if df is not None:
             st.write(f"Total sentences available: {filtered_df.shape[0]}")
 
             # Only show the Generate Summary button if we have filtered data and filter has been applied
-            if st.session_state.filter_applied:
+            if st.session_state.filter_applied: 
                 if st.button("Generate Summary"):
                     # Combine all sentences into one text
                     text = " ".join(filtered_df['sentence'])
@@ -319,7 +320,8 @@ if df is not None:
 
     # Text Similarity
     elif analysis_option == "Text Similarity":
-        st.session_state.filter_applied = False
+        if "filter_applied" not in st.session_state:
+            st.session_state.filter_applied = False
         st.header("Text Similarity Analysis")
 
         # Add filtering options 
@@ -413,7 +415,8 @@ if df is not None:
 
     # Text Clustering
     elif analysis_option == "Text Clustering":
-        st.session_state.filter_applied = False
+        if "filter_applied" not in st.session_state:
+            st.session_state.filter_applied = False
         st.header("Text Clustering")
 
         # Add filtering options like in Text Summarization section
@@ -562,7 +565,6 @@ if df is not None:
                 st.plotly_chart(fig)
 
         elif clustering_method == "DBSCAN":
-            st.session_state.filter_applied = False
             col1, col2 = st.columns(2)
             
             with col1:
@@ -744,7 +746,8 @@ if df is not None:
 
     # Word2Vec Analysis
     elif analysis_option == "Word2Vec Analysis":
-        st.session_state.filter_applied = False
+        if "filter_applied" not in st.session_state:
+            st.session_state.filter_applied = False
         st.header("Word2Vec Analysis")
 
         # Add filtering options
@@ -966,7 +969,8 @@ if df is not None:
 
     # Distance Metrics Comparison
     elif analysis_option == "Distance Metrics Comparison":
-        st.session_state.filter_applied = False
+        if "filter_applied" not in st.session_state:
+            st.session_state.filter_applied = False
         st.header("Distance Metrics Comparison")
 
         # Add filtering options
