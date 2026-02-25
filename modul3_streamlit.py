@@ -18,7 +18,7 @@ import re
 import string
 from gensim.models import Word2Vec
 from gensim.models.callbacks import CallbackAny2Vec
-import Laveshtein as lev
+import Leveshtein as lev
 
 # Page configuration
 st.set_page_config(
