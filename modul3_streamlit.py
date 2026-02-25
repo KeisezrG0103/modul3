@@ -18,6 +18,7 @@ import re
 import string
 from gensim.models import Word2Vec
 from gensim.models.callbacks import CallbackAny2Vec
+import Laveshtein as lev
 
 # Page configuration
 st.set_page_config(
@@ -125,7 +126,7 @@ def display_topics(model, feature_names, num_words=10):
 
 # Function to calculate Levenshtein edit distance
 
-
+## Legacy implementation (not used in final code since we are using the optimized library version)
 def levenshtein_distance(s1, s2):
     rows = len(s1) + 1
     cols = len(s2) + 1
@@ -155,7 +156,24 @@ def levenshtein_distance(s1, s2):
 
 
 def hellinger_distance(p, q):
-    return np.sqrt(0.5 * np.sum((np.sqrt(p) - np.sqrt(q)) ** 2))
+    """
+    Compute the Hellinger distance between two probability distributions.
+    H(p, q) = sqrt(1 - BC(p, q))
+    where BC is the Bhattacharyya coefficient: BC(p, q) = sum(sqrt(p_i * q_i))
+    """
+    # Ensure p and q are numpy arrays
+    p = np.asarray(p, dtype=np.float64)
+    q = np.asarray(q, dtype=np.float64)
+    
+    # Normalize to probability distributions
+    p /= np.sum(p)
+    q /= np.sum(q)
+    
+    # Compute Bhattacharyya coefficient
+    bc = np.sum(np.sqrt(p * q))
+    
+    # Compute Hellinger distance
+    return np.sqrt(1 - bc)
 
 
 # App title and introduction
@@ -1096,7 +1114,7 @@ if df is not None:
                             (len(subset_df), len(subset_df)))
                         for i in range(len(subset_df)):
                             for j in range(len(subset_df)):
-                                levenshtein_matrix[i, j] = levenshtein_distance(
+                                levenshtein_matrix[i, j] = lev.distance(
                                     subset_df['sentence'].iloc[i], subset_df['sentence'].iloc[j])
 
                         # Normalize by maximum value
