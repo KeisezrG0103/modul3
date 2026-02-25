@@ -184,7 +184,7 @@ It provides various text analysis techniques including summarization, similarity
 """)
 
 # Sidebar for navigation
-analysis_option = st.sidebar.selectbox(
+analysis_option = st.sidebar.radio(
     "Choose Analysis Method",
     ["Data Explorer", "Text Summarization", "Text Similarity", "Text Clustering",
      "Word2Vec Analysis", "Distance Metrics Comparison"]
